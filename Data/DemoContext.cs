@@ -20,20 +20,16 @@ namespace PolyPort.Demo.Data
             KeyVaultClient keyVaultClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));
             
             string cosmosDBHost = GetDBHost(keyVaultClient).ConfigureAwait(false).GetAwaiter().GetResult().Value;
-            // string cosmosDBUsername = GetDBUsername(keyVaultClient).ConfigureAwait(false).GetAwaiter().GetResult().Value;
-            // string cosmosDBPassword = GetDBPassword(keyVaultClient).ConfigureAwait(false).GetAwaiter().GetResult().Value;
+            string cosmosDBUsername = GetDBUsername(keyVaultClient).ConfigureAwait(false).GetAwaiter().GetResult().Value;
+            string cosmosDBPassword = GetDBPassword(keyVaultClient).ConfigureAwait(false).GetAwaiter().GetResult().Value;
 
-            Console.WriteLine("Hostname: " + cosmosDBHost);
-            // Console.WriteLine(cosmosDBUsername);
-            // Console.WriteLine(cosmosDBPassword);
-
-            // this.server = new GremlinServer(
-            //         cosmosDBHost,
-            //         port: 443,
-            //         enableSsl: true, 
-            //         username: cosmosDBUsername, 
-            //         password: cosmosDBPassword);
-            // this.client = new GremlinClient(server, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType);
+            this.server = new GremlinServer(
+                    cosmosDBHost,
+                    port: 443,
+                    enableSsl: true, 
+                    username: cosmosDBUsername, 
+                    password: cosmosDBPassword);
+            this.client = new GremlinClient(server, new GraphSON2Reader(), new GraphSON2Writer(), GremlinClient.GraphSON2MimeType);
         }
 
         public async Task<ResultSet<dynamic>> SaveChanges(string query)
